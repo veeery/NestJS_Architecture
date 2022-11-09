@@ -1,14 +1,12 @@
 import { registerAs } from '@nestjs/config';
 
 export interface AppOptions {
-
     name: string;
     env: string;
     url: string;
     port: number;
     lang: string;
     isLogging: boolean;
-
 }
 
 export const app = registerAs('app', (): AppOptions => ({

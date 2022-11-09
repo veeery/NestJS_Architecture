@@ -3,7 +3,7 @@ import { AppModule } from 'src/modules/app/app.module';
 import { AppConfigService } from 'src/modules/app/app-config.services';
 import { Logger } from '@nestjs/common'
 import { LoggingInterceptor } from 'src/common/interceptors/logging.interceptor'
-// import helmet from 'helmet';
+import helmet from 'helmet';
 
 async function bootstrap() {
   const logger = new Logger("Bootstrap");
@@ -13,7 +13,7 @@ async function bootstrap() {
 
 
   if (config.isProduction) {
-    // app.use(helmet());
+    app.use(helmet());
   }
 
   if (config.isDevelopment) {
@@ -23,6 +23,8 @@ async function bootstrap() {
   if (config.isLogging) {
     app.useGlobalInterceptors(new LoggingInterceptor());
   }
+
+  
 
   await app.listen(port);
   logger.log(`Server at Port : ${port}`)
