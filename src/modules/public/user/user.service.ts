@@ -3,7 +3,7 @@ import { SuccessResponse } from 'src/common/interfaces/response.interface';
 import { In, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './user.entity';
-import { CreateUserDTO, UserQuery } from './user.dto';
+import { CreateUserDTO, UpdateUserProfileDTO, UserQuery } from './user.dto';
 import { ValidationErrorException } from 'src/common/exceptions/validation-exception';
 import { paginate, Pagination } from 'nestjs-typeorm-paginate';
 import { like } from 'src/common/utils/orm';
@@ -40,7 +40,7 @@ export class UserService {
       relations: {},
     });
     if (!user) throw new NotFoundException('User Not Found');
-    return { data: user };
+    return { data: user.toJson() };
   }
 
   async getAllUser(userQuery: UserQuery): Promise<Pagination<User>> {
@@ -56,5 +56,24 @@ export class UserService {
     (await paginated).items.forEach((user) => user);
 
     return paginated;
+  }
+
+  async updateUserProfile(
+    id: number,
+    updateUserProfileDto: UpdateUserProfileDTO,
+  ): Promise<SuccessResponse<User>> {
+    const user = await this.userRepository.findOne({
+      where: { id },
+    });
+
+    const updatedUser = this.userRepository.create({
+      ...user,
+      ...updateUserProfileDto,
+    });
+
+    return {
+      data: (await updatedUser.save()).toJson(),
+      message: 'Succesfully Update User Profile',
+    };
   }
 }

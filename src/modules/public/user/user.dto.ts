@@ -47,4 +47,16 @@ export class GetUserDTO extends BaseUserDto {
   username: string;
 }
 
+export class UpdateUserProfileDTO extends BaseUserDto {
+  @IsOptional()
+  @IsString()
+  name: string;
+
+  @IsOptional()
+  @MaxLength(50)
+  @MinLength(6)
+  @IsString()
+  password: string;
+}
+
 export class UserQuery extends PaginationQuery {}
