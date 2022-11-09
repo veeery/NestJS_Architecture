@@ -34,10 +34,18 @@ export class CreateUserDTO extends BaseUserDto {
   @IsString()
   password: string;
 
-  @IsOptional()
-  @IsArray()
+}
+
+export class GetUserDTO extends BaseUserDto {
+  @IsNotEmpty()
   @IsString()
-  address: string[];
+  name: string;
+
+  @IsNotEmpty()
+  @MaxLength(20)
+  @MinLength(3)
+  @IsString()
+  username: string;
 }
 
 export class UserQuery extends PaginationQuery {}

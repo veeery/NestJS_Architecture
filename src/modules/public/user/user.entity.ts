@@ -12,9 +12,4 @@ export class User extends Model {
   @Column({ length: 50 })
   password: string;
 
-  @Column({ length: 250 })
-  address: string;
-
-  @Column({ unique: true })
-  token: string;
 }
