@@ -3,8 +3,10 @@ import { SuccessResponse } from 'src/common/interfaces/response.interface';
 import { In, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './user.entity';
-import { CreateUserDTO } from './user.dto';
+import { CreateUserDTO, UserQuery } from './user.dto';
 import { ValidationErrorException } from 'src/common/exceptions/validation-exception';
+import { paginate, Pagination } from 'nestjs-typeorm-paginate';
+import { like } from 'src/common/utils/orm';
 
 @Injectable()
 export class UserService {
@@ -20,7 +22,7 @@ export class UserService {
 
     try {
       return {
-        data: await user.save(),
+        data: await (await user.save()).toJson(),
         message: 'Account Successfully Create',
       };
     } catch (err) {
@@ -39,5 +41,20 @@ export class UserService {
     });
     if (!user) throw new NotFoundException('User Not Found');
     return { data: user };
+  }
+
+  async getAllUser(userQuery: UserQuery): Promise<Pagination<User>> {
+    const { limit, page, search, orderBy, sortBy } = userQuery;
+    const query = this.userRepository.createQueryBuilder('user');
+    // getAllUser With Options Search by Name
+    if (search) query.where(like('user.name', search));
+    // getAllUser With Options orderBy & sortBy
+    if (orderBy && sortBy) query.orderBy(`user.${orderBy}`, sortBy);
+
+    const paginated = paginate<User>(query, { limit, page });
+
+    (await paginated).items.forEach((user) => user);
+
+    return paginated;
   }
 }

@@ -33,7 +33,6 @@ export class CreateUserDTO extends BaseUserDto {
   @MinLength(6)
   @IsString()
   password: string;
-
 }
 
 export class GetUserDTO extends BaseUserDto {

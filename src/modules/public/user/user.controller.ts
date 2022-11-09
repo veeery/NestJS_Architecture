@@ -10,7 +10,7 @@ import {
   Query,
 } from '@nestjs/common';
 import { create } from 'domain';
-import { CreateUserDTO } from './user.dto';
+import { CreateUserDTO, UserQuery } from './user.dto';
 import { UserService } from './user.service';
 
 @Controller({ path: 'user' })
@@ -20,6 +20,11 @@ export class UserController {
   @Post()
   createAccount(@Body() createUserDto: CreateUserDTO) {
     return this.userService.createAccount(createUserDto);
+  }
+
+  @Get()
+  getAllUser(@Query() userQuery: UserQuery) {
+    return this.userService.getAllUser(userQuery);
   }
 
   @Get(':id')
