@@ -12,14 +12,14 @@ import {
 import { create } from 'domain';
 import { UpdateDateColumn } from 'typeorm';
 import { ProductService } from './product.service';
-import { ProductDTO, ProductQuery } from './product.dto';
+import { AddNewProductDTO, ProductQuery } from './product.dto';
 
 @Controller({ path: 'product' })
 export class ProductController {
   constructor(private readonly productService: ProductService) {}
 
   @Post()
-  addNewProduct(@Body() addNewProductDto: ProductDTO) {
+  addNewProduct(@Body() addNewProductDto: AddNewProductDTO) {
     return this.productService.addNewProduct(addNewProductDto);
   }
 

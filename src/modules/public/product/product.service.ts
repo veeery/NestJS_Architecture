@@ -6,7 +6,7 @@ import { ValidationErrorException } from 'src/common/exceptions/validation-excep
 import { paginate, Pagination } from 'nestjs-typeorm-paginate';
 import { like } from 'src/common/utils/orm';
 import { Product } from 'src/modules/public/product/product.entity';
-import { ProductDTO, ProductQuery } from './product.dto';
+import { AddNewProductDTO, ProductQuery } from './product.dto';
 import { ServerMessage } from 'src/common/interfaces/server-message.interface';
 
 @Injectable()
@@ -16,7 +16,7 @@ export class ProductService {
     private productRepository: Repository<Product>,
   ) {}
 
-  async addNewProduct(addNewProduct: ProductDTO) {
+  async addNewProduct(addNewProduct: AddNewProductDTO) {
     const product = this.productRepository.create(addNewProduct);
 
     try {

@@ -18,6 +18,12 @@ export class Product extends Model {
   @Column({ unique: true })
   scanCode: string;
 
+  @Column({ default: 0 })
+  qty: number;
+
+  @Column()
+  unit: string;
+
   toJson() {
     return this;
   }

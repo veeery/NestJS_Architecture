@@ -15,7 +15,7 @@ export class BaseProductDto {
   name: string;
 }
 
-export class ProductDTO extends BaseProductDto {
+export class AddNewProductDTO extends BaseProductDto {
   @IsNotEmpty()
   @IsString()
   name: string;
@@ -23,6 +23,20 @@ export class ProductDTO extends BaseProductDto {
   @IsNotEmpty()
   @IsString()
   scanCode: string;
+
+  @IsNotEmpty()
+  @IsString()
+  unit: string;
 }
+
+// export class ProductDTO extends BaseProductDto {
+//   @IsNotEmpty()
+//   @IsString()
+//   name: string;
+
+//   @IsNotEmpty()
+//   @IsString()
+//   scanCode: string;
+// }
 
 export class ProductQuery extends PaginationQuery {}
