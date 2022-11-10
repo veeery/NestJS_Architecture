@@ -7,6 +7,8 @@ import { CreateUserDTO, UpdateUserProfileDTO, UserQuery } from './user.dto';
 import { ValidationErrorException } from 'src/common/exceptions/validation-exception';
 import { paginate, Pagination } from 'nestjs-typeorm-paginate';
 import { like } from 'src/common/utils/orm';
+import { ServerMessage } from 'src/common/interfaces/server-message.interface';
+import { Product } from '../product/product.entity';
 
 @Injectable()
 export class UserService {
@@ -77,7 +79,7 @@ export class UserService {
     };
   }
 
-  async deleteAccount(id: number): Promise<SuccessResponse<User>> {
+  async deleteAccount(id: number): Promise<ServerMessage> {
     const user = await this.userRepository.findOne({
       where: { id },
       relations: {},
@@ -86,10 +88,13 @@ export class UserService {
     if (!user) throw new NotFoundException('User Not Found');
 
     try {
-      return {
-        data: (await user.remove()).toJson(),
-        message: 'Account Successfully Delete',
-      };
-    } catch (err) {}
+      await user.remove();
+    } catch (err) {
+      await user.softRemove();
+    }
+
+    return {
+      message: 'Account Successfully Delete',
+    };
   }
 }

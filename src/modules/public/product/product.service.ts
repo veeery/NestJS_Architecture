@@ -7,6 +7,7 @@ import { paginate, Pagination } from 'nestjs-typeorm-paginate';
 import { like } from 'src/common/utils/orm';
 import { Product } from 'src/modules/public/product/product.entity';
 import { ProductDTO, ProductQuery } from './product.dto';
+import { ServerMessage } from 'src/common/interfaces/server-message.interface';
 
 @Injectable()
 export class ProductService {
@@ -38,7 +39,7 @@ export class ProductService {
       relations: {},
     });
     if (!product) {
-      return this.getProductByScanCode(id.toString());
+      return await this.getProductByScanCode(id.toString());
     }
     return { data: product };
   }
@@ -67,5 +68,41 @@ export class ProductService {
     const paginated = paginate<Product>(query, { limit, page });
     (await paginated).items.forEach((product) => product.toJson());
     return paginated;
+  }
+
+  async deleteProductById(id: number): Promise<ServerMessage> {
+    const product = await this.productRepository.findOne({
+      where: { id },
+      relations: {},
+    });
+
+    if (!product) {
+      return await this.deleteProductByScanCode(id.toString());
+    }
+
+    try {
+      await product.remove();
+    } catch (err) {
+      await product.softRemove();
+    }
+
+    return { message: 'Product Successfully Delete' };
+  }
+
+  async deleteProductByScanCode(scanCode: string): Promise<ServerMessage> {
+    const product = await this.productRepository.findOne({
+      where: { scanCode },
+      relations: {},
+    });
+
+    if (!product) throw new NotFoundException('Product Not Found');
+
+    try {
+      await product.remove();
+    } catch (err) {
+      await product.softRemove();
+    }
+
+    return { message: 'Product Successfully Delete' };
   }
 }

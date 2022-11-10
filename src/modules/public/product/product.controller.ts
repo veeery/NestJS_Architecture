@@ -33,5 +33,8 @@ export class ProductController {
     return this.productService.getProductById(+id);
   }
 
-  ``
+  @Delete(':id')
+  deleteProduct(@Param('id', ParseIntPipe) id: number) {
+    return this.productService.deleteProductById(+id);
+  }
 }
