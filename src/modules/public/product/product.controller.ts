@@ -12,7 +12,7 @@ import {
 import { create } from 'domain';
 import { UpdateDateColumn } from 'typeorm';
 import { ProductService } from './product.service';
-import { ProductDTO } from './product.dto';
+import { ProductDTO, ProductQuery } from './product.dto';
 
 @Controller({ path: 'product' })
 export class ProductController {
@@ -22,4 +22,16 @@ export class ProductController {
   addNewProduct(@Body() addNewProductDto: ProductDTO) {
     return this.productService.addNewProduct(addNewProductDto);
   }
+
+  @Get()
+  getAllProduct(@Query() productQuery: ProductQuery) {
+    return this.productService.getAllProduct(productQuery);
+  }
+
+  @Get(':id')
+  getProduct(@Param('id', ParseIntPipe) id: number) {
+    return this.productService.getProductById(+id);
+  }
+
+  ``
 }

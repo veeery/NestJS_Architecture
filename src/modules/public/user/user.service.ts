@@ -53,7 +53,7 @@ export class UserService {
 
     const paginated = paginate<User>(query, { limit, page });
 
-    (await paginated).items.forEach((user) => user);
+    (await paginated).items.forEach((user) => user.toJson());
 
     return paginated;
   }

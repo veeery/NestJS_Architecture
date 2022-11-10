@@ -6,7 +6,7 @@ import { ValidationErrorException } from 'src/common/exceptions/validation-excep
 import { paginate, Pagination } from 'nestjs-typeorm-paginate';
 import { like } from 'src/common/utils/orm';
 import { Product } from 'src/modules/public/product/product.entity';
-import { ProductDTO } from './product.dto';
+import { ProductDTO, ProductQuery } from './product.dto';
 
 @Injectable()
 export class ProductService {
@@ -30,5 +30,42 @@ export class ProductService {
         });
       throw err;
     }
+  }
+
+  async getProductById(id: number): Promise<SuccessResponse<Product>> {
+    const product = await this.productRepository.findOne({
+      where: { id },
+      relations: {},
+    });
+    if (!product) {
+      return this.getProductByScanCode(id.toString());
+    }
+    return { data: product };
+  }
+
+  async getProductByScanCode(
+    scanCode: string,
+  ): Promise<SuccessResponse<Product>> {
+    const product = await this.productRepository.findOne({
+      where: { scanCode },
+      relations: {},
+    });
+    if (!product) throw new NotFoundException('Product Not Found');
+    return { data: product };
+  }
+
+  async getAllProduct(
+    productQuery: ProductQuery,
+  ): Promise<Pagination<Product>> {
+    const { limit, page, search, orderBy, sortBy } = productQuery;
+    const query = this.productRepository.createQueryBuilder('product');
+
+    if (search) query.where(like('product.name', search));
+
+    if (orderBy && sortBy) query.orderBy(`product.${orderBy}`, sortBy);
+
+    const paginated = paginate<Product>(query, { limit, page });
+    (await paginated).items.forEach((product) => product.toJson());
+    return paginated;
   }
 }
