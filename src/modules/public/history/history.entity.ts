@@ -19,13 +19,13 @@ export class History extends Model {
   @Column({ nullable: true })
   note: string;
 
-  @ManyToOne(() => User, (user) => user.id)
+  @ManyToOne(() => User, (user) => user.history)
   user: User;
 
   @Column()
   userId: number;
 
-  @ManyToMany(() => Product, (product) => product.id)
+  @ManyToMany(() => Product)
   @JoinTable()
   product: Product[];
 }

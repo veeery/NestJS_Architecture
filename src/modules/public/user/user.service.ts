@@ -97,4 +97,15 @@ export class UserService {
       message: 'Account Successfully Delete',
     };
   }
+
+  // Utils Functions
+  async getUserByUsername(username: string): Promise<User> {
+    const user = await this.userRepository
+      .createQueryBuilder('user')
+      .where({ username })
+      .getOne();
+
+    if (!user) return null;
+    return user;
+  }
 }

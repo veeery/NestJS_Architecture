@@ -11,6 +11,7 @@ import {
   OneToMany,
 } from 'typeorm';
 import { UnauthorizedException } from '@nestjs/common';
+import { History } from '../history/history.entity';
 
 @Entity()
 export class User extends Model {
@@ -20,11 +21,14 @@ export class User extends Model {
   @Column({ unique: true, length: 35 })
   username: string;
 
-  @Column({ length: 50 })
+  @Column()
   password: string;
 
   @Column({ nullable: true })
   public currentHashedRefreshToken: string;
+
+  @OneToMany(() => History, (history) => history.user)
+  history: History[];
 
   token?: string;
 
@@ -49,13 +53,13 @@ export class User extends Model {
 
   async validatePassword(password: string) {
     const hash = await bcrypt.hash(password, this.passSalt);
-    return hash == this.password;
+    return hash === this.password;
   }
 
   @BeforeUpdate()
   async hashRefreshToken() {
     if (!this.currentHashedRefreshToken) return;
-    const salt = await bcrypt.genSalt;
+    const salt = await bcrypt.genSalt();
     this.currentHashedRefreshToken = await bcrypt.hash(
       this.currentHashedRefreshToken,
       salt,
