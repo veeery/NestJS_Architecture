@@ -1,5 +1,6 @@
 import { Module } from "@nestjs/common"
 import HelloWorldModule from "./hello-world/hello-world.module";
+import { HistoryModule } from "./history/history.module";
 import { ProductModule } from "./product/product.module";
 import { UserModule } from "./user/user.module";
 
@@ -7,7 +8,8 @@ import { UserModule } from "./user/user.module";
     imports: [
         HelloWorldModule,
         UserModule,
-        ProductModule
+        ProductModule,
+        HistoryModule
     ]
 })
 export default class PublicModule {}
