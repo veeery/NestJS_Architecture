@@ -40,4 +40,9 @@ export class UserController {
   ) {
     return this.userService.updateUserProfile(+id, UpdateUserProfileDto);
   }
+
+  @Delete(':id')
+  deleteAccount(@Param('id', ParseIntPipe) id: number) {
+    return this.userService.deleteAccount(+id);
+  }
 }

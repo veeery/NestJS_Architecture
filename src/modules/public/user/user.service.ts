@@ -22,7 +22,7 @@ export class UserService {
 
     try {
       return {
-        data: await (await user.save()).toJson(),
+        data: (await user.save()).toJson(),
         message: 'Account Successfully Create',
       };
     } catch (err) {
@@ -75,5 +75,21 @@ export class UserService {
       data: (await updatedUser.save()).toJson(),
       message: 'Succesfully Update User Profile',
     };
+  }
+
+  async deleteAccount(id: number): Promise<SuccessResponse<User>> {
+    const user = await this.userRepository.findOne({
+      where: { id },
+      relations: {},
+    });
+
+    if (!user) throw new NotFoundException('User Not Found');
+
+    try {
+      return {
+        data: (await user.remove()).toJson(),
+        message: 'Account Successfully Delete',
+      };
+    } catch (err) {}
   }
 }
