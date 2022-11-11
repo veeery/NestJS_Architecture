@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { SuccessResponse } from 'src/common/interfaces/response.interface';
 import { In, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -8,6 +12,8 @@ import { like } from 'src/common/utils/orm';
 import { Product } from 'src/modules/public/product/product.entity';
 import { AddNewProductDTO, ProductQuery } from './product.dto';
 import { ServerMessage } from 'src/common/interfaces/server-message.interface';
+import { createWriteStream } from 'fs';
+import { uploadImage } from 'src/common/utils/auto_folder';
 
 @Injectable()
 export class ProductService {
@@ -21,24 +27,18 @@ export class ProductService {
     return image;
   }
 
-  async addNewProduct(addNewProduct: AddNewProductDTO, image: Express.Multer.File) {
-
-    const {name, scanCode, unit} = addNewProduct
-    if(!name){
-      
-    }
-    if(!scanCode){
-
-    }
-    if(!unit){
-
-    }
-
+  async addNewProduct(
+    addNewProduct: AddNewProductDTO,
+    image: Express.Multer.File,
+  ) {
     const product = this.productRepository.create(addNewProduct);
 
     try {
+      const returnData = (await product.save()).toJson;
+      uploadImage(image);
+
       return {
-        data: (await product.save()).toJson,
+        data: returnData,
         message: 'Successfully Add New Product',
       };
     } catch (err) {
