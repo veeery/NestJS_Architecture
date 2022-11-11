@@ -8,13 +8,16 @@ import {
   Param,
   Delete,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { create } from 'domain';
 import { UpdateDateColumn } from 'typeorm';
 import { ProductService } from './product.service';
 import { AddNewProductDTO, ProductQuery } from './product.dto';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller({ path: 'product' })
+@UseGuards(AuthGuard())
 export class ProductController {
   constructor(private readonly productService: ProductService) {}
 

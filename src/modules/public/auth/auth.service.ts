@@ -16,7 +16,8 @@ import { AppConfigService } from 'src/modules/app/app-config.services';
 import { Repository } from 'typeorm';
 import { User } from '../user/user.entity';
 import { UserService } from '../user/user.service';
-import { LoginDTO } from './auth.dto';
+import { ChangePasswordDTO, LoginDTO, RegisterDTO } from './auth.dto';
+import { RequestContext } from 'src/common/core/request-context';
 
 @Injectable()
 export class AuthService {
@@ -34,6 +35,58 @@ export class AuthService {
     const refreshToken = this.generateRefreshToken(user);
     await this.setCurrentRefreshToken(refreshToken, user.id);
     return { data: user.toJson(), token: token, refreshToken: refreshToken };
+  }
+
+  async register(
+    registerDto: RegisterDTO,
+  ): Promise<AuthSuccess<Partial<User>>> {
+    const user = this.userRepository.create(registerDto);
+    const token = this.generateToken(user);
+    try {
+      await user.save();
+    } catch (err) {
+      if (err.code == 'ER_DUP_ENTRY')
+        throw new ValidationErrorException({
+          username: ['Username has been used'],
+        });
+      throw err;
+    }
+    return { data: user.toJson(), token: token };
+  }
+
+  async logout(): Promise<ServerMessage> {
+    const user = RequestContext.user;
+    console.log(user.id);
+    await this.setCurrentRefreshToken(null, user.id);
+    return { message: 'User berhasil logout' };
+  }
+
+  async refreshToken(
+    request: UserRequest,
+  ): Promise<AuthSuccess<Partial<User>>> {
+    const { id } = request.user;
+    const oldRefreshToken =
+      request.headers['authorization'].split('Bearer ')[1];
+    const user = await this.getUserIfRefreshTokenMatches(oldRefreshToken, id);
+    const token = this.generateToken(user);
+    const refreshToken = this.generateRefreshToken(user);
+    await this.setCurrentRefreshToken(refreshToken, user.id);
+    return { data: user.toJson(), token: token, refreshToken: refreshToken };
+  }
+
+  async changePassword(
+    changePasswordDto: ChangePasswordDTO,
+    request: UserRequest,
+  ): Promise<User> {
+    const { oldPassword, newPassword } = changePasswordDto;
+    const { username } = request.user;
+    const user = await this.validateUserPassword({
+      password: oldPassword,
+      username,
+    });
+    user.password = newPassword;
+
+    return (await user.save()).toJson();
   }
 
   //Utils to help Auth Functions
@@ -80,9 +133,9 @@ export class AuthService {
         history: true,
       },
     });
-    if (!user) throw new BadRequestException('Username tidak ditemukan');
+    if (!user) throw new BadRequestException('Username Not Found');
     if (!(await user.validateRefreshToken(refreshToken)))
-      throw new BadRequestException('Refresh Token Gagal');
+      throw new BadRequestException('Failed Token Refresh');
     return user.toJson();
   }
 
