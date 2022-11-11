@@ -22,11 +22,8 @@ export class HistoryService {
     addHistory.userId = 1;
     const history = this.historyRepository.create(addHistory);
 
-    if (addHistory.productIds) {
-      history.product = await this.productRepository.findBy({
-        id: In(addHistory.productIds),
-      });
-    }
+    history.userId = userRequest.user.id;
+    await this.applyProductDetail(history);
 
     try {
       return {
@@ -35,6 +32,28 @@ export class HistoryService {
       };
     } catch (err) {
       throw err;
+    }
+  }
+
+  async applyProductDetail(history: History): Promise<void> {
+    const productIds = [];
+    for (const historyDetail of history.historyDetail) {
+      productIds.push(historyDetail.productId);
+    }
+    const products = await this.productRepository.findBy({
+      id: In(productIds),
+    });
+
+    for (const historyDetail of history.historyDetail) {
+      const product = products.find(
+        (product) => product.id == historyDetail.productId,
+      );
+      product.qty -= historyDetail.qty;
+      try {
+        await product.save();
+      } catch (err) {
+        throw err;
+      }
     }
   }
 }

@@ -1,4 +1,6 @@
+import { Type } from 'class-transformer';
 import {
+  ArrayMinSize,
   isArray,
   IsArray,
   IsNotEmpty,
@@ -8,8 +10,10 @@ import {
   Max,
   MaxLength,
   MinLength,
+  ValidateNested,
 } from 'class-validator';
 import { PaginationQuery } from 'src/common/core/pagination.query';
+import { CreateHistoryDetailDTO } from '../history-detail/history-detail.dto';
 
 export class CreateHistoryDTO {
   @IsOptional()
@@ -20,8 +24,14 @@ export class CreateHistoryDTO {
   @IsString()
   userId: number;
 
-  @IsNotEmpty()
   @IsArray()
-  @IsNumber({}, { each: true })
-  productIds: number[];
+  @ValidateNested({ each: true })
+  @Type(() => CreateHistoryDetailDTO)
+  @ArrayMinSize(1)
+  historyDetail: CreateHistoryDetailDTO[];
+
+  // @IsNotEmpty()
+  // @IsArray()
+  // @IsNumber({}, { each: true })
+  // productIds: number[];
 }

@@ -13,6 +13,7 @@ import {
 import { UnauthorizedException } from '@nestjs/common';
 import { User } from '../user/user.entity';
 import { Product } from '../product/product.entity';
+import { HistoryDetail } from '../history-detail/history-detail.entity';
 
 @Entity()
 export class History extends Model {
@@ -25,7 +26,6 @@ export class History extends Model {
   @Column()
   userId: number;
 
-  @ManyToMany(() => Product)
-  @JoinTable()
-  product: Product[];
+  @OneToMany(() => HistoryDetail, (historyDetail) => historyDetail.history)
+  historyDetail: HistoryDetail[];
 }
