@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { SuccessResponse } from 'src/common/interfaces/response.interface';
 import { In, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -16,7 +16,24 @@ export class ProductService {
     private productRepository: Repository<Product>,
   ) {}
 
-  async addNewProduct(addNewProduct: AddNewProductDTO) {
+  async uploadSingleImage(image: Express.Multer.File) {
+    if (!image) throw new BadRequestException();
+    return image;
+  }
+
+  async addNewProduct(addNewProduct: AddNewProductDTO, image: Express.Multer.File) {
+
+    const {name, scanCode, unit} = addNewProduct
+    if(!name){
+      
+    }
+    if(!scanCode){
+
+    }
+    if(!unit){
+
+    }
+
     const product = this.productRepository.create(addNewProduct);
 
     try {

@@ -17,7 +17,6 @@ import { Repository } from 'typeorm';
 import { User } from '../user/user.entity';
 import { UserService } from '../user/user.service';
 import { ChangePasswordDTO, LoginDTO, RegisterDTO } from './auth.dto';
-import { RequestContext } from 'src/common/core/request-context';
 
 @Injectable()
 export class AuthService {
@@ -54,11 +53,11 @@ export class AuthService {
     return { data: user.toJson(), token: token };
   }
 
-  async logout(): Promise<ServerMessage> {
-    const user = RequestContext.user;
-    console.log(user.id);
+  async logout(request: UserRequest): Promise<ServerMessage> {
+    const user = request.user;
+    console.log(request.user);
     await this.setCurrentRefreshToken(null, user.id);
-    return { message: 'User berhasil logout' };
+    return { message: 'Successfully Logout' };
   }
 
   async refreshToken(

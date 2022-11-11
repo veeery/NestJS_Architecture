@@ -23,6 +23,13 @@ export class AuthController {
     return this.authService.login(loginDto);
   }
 
+  @Post('logout')
+  @HttpCode(200)
+  @UseGuards(AuthGuard())
+  logout(@Req() request: UserRequest) {
+    return this.authService.logout(request);
+  }
+
   @Post('register')
   register(@Body() registerDto: RegisterDTO) {
     return this.authService.register(registerDto);

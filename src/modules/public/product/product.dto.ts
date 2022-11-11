@@ -1,12 +1,4 @@
-import {
-  IsArray,
-  IsNotEmpty,
-  IsNumber,
-  IsOptional,
-  IsString,
-  MaxLength,
-  MinLength,
-} from 'class-validator';
+import { IsNotEmpty, IsString } from 'class-validator';
 import { PaginationQuery } from 'src/common/core/pagination.query';
 
 export class BaseProductDto {
@@ -28,15 +20,5 @@ export class AddNewProductDTO extends BaseProductDto {
   @IsString()
   unit: string;
 }
-
-// export class ProductDTO extends BaseProductDto {
-//   @IsNotEmpty()
-//   @IsString()
-//   name: string;
-
-//   @IsNotEmpty()
-//   @IsString()
-//   scanCode: string;
-// }
 
 export class ProductQuery extends PaginationQuery {}
