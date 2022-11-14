@@ -1,12 +1,12 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { SuccessResponse } from 'src/common/interfaces/response.interface';
-import { In, Repository } from 'typeorm';
+import { FindOneOptions, In, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ValidationErrorException } from 'src/common/exceptions/validation-exception';
 import { paginate, Pagination } from 'nestjs-typeorm-paginate';
 import { like } from 'src/common/utils/orm';
 import { ServerMessage } from 'src/common/interfaces/server-message.interface';
-import { CreateHistoryDTO } from './history.dto';
+import { CreateHistoryDTO, GetHistoryDTO } from './history.dto';
 import { History } from './history.entity';
 import { UserRequest } from 'src/common/interfaces/request.interface';
 import { Product } from '../product/product.entity';
@@ -19,11 +19,12 @@ export class HistoryService {
   ) {}
 
   async createHistory(addHistory: CreateHistoryDTO, userRequest: UserRequest) {
-    addHistory.userId = 1;
     const history = this.historyRepository.create(addHistory);
 
     history.userId = userRequest.user.id;
     await this.applyProductDetail(history);
+
+    console.log(history);
 
     try {
       return {
@@ -33,6 +34,18 @@ export class HistoryService {
     } catch (err) {
       throw err;
     }
+  }
+
+  async getHistory(historyId: number): Promise<SuccessResponse<History>> {
+    const history = await this.historyRepository.findOne({
+      where: { id: historyId },
+      relations: {
+        historyDetail: {
+          product: true,
+        },
+      },
+    });
+    return { data: history };
   }
 
   async applyProductDetail(history: History): Promise<void> {

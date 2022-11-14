@@ -29,9 +29,19 @@ export class CreateHistoryDTO {
   @Type(() => CreateHistoryDetailDTO)
   @ArrayMinSize(1)
   historyDetail: CreateHistoryDetailDTO[];
+}
+export class GetHistoryDTO {
+  @IsOptional()
+  @IsString()
+  note: string;
 
-  // @IsNotEmpty()
-  // @IsArray()
-  // @IsNumber({}, { each: true })
-  // productIds: number[];
+  @IsOptional()
+  @IsString()
+  userId: number;
+
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => CreateHistoryDetailDTO)
+  @ArrayMinSize(1)
+  historyDetail: CreateHistoryDetailDTO[];
 }

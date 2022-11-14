@@ -19,13 +19,18 @@ import { HistoryService } from './history.service';
 @Controller({ path: 'history' })
 @UseGuards(AuthGuard())
 export class HistoryController {
-  constructor(private readonly hisotryServices: HistoryService) {}
+  constructor(private readonly historyService: HistoryService) {}
 
   @Post()
   createHistory(
     @Body() createHistoryDto: CreateHistoryDTO,
     @Req() userRequest: UserRequest,
   ) {
-    return this.hisotryServices.createHistory(createHistoryDto, userRequest);
+    return this.historyService.createHistory(createHistoryDto, userRequest);
+  }
+
+  @Get(':id')
+  getHistory(@Param('id', ParseIntPipe) id: number) {
+    return this.historyService.getHistory(id);
   }
 }

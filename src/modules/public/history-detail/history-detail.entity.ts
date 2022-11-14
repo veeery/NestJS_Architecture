@@ -11,11 +11,15 @@ import {
 } from 'typeorm';
 import { UnauthorizedException } from '@nestjs/common';
 import { History } from '../history/history.entity';
+import { Product } from '../product/product.entity';
 
 @Entity()
 export class HistoryDetail extends Model {
   @ManyToOne(() => History)
   history: History;
+
+  @ManyToOne(() => Product)
+  product: Product;
 
   @Column()
   historyId: number;
