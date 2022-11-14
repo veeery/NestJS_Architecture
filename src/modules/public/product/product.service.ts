@@ -32,10 +32,12 @@ export class ProductService {
     image: Express.Multer.File,
   ) {
     const product = this.productRepository.create(addNewProduct);
+    const imageName = `${Date.now()}-${image.originalname}`;
+    product.imageUrl = `product/image/${imageName}`;
 
     try {
       const returnData = (await product.save()).toJson;
-      uploadImage(image);
+      uploadImage(image, imageName);
 
       return {
         data: returnData,

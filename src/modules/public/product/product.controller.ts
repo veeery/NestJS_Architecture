@@ -12,6 +12,7 @@ import {
   UseInterceptors,
   UploadedFiles,
   UploadedFile,
+  Res,
 } from '@nestjs/common';
 import { create } from 'domain';
 import { UpdateDateColumn } from 'typeorm';
@@ -47,5 +48,10 @@ export class ProductController {
   @Delete(':id')
   deleteProduct(@Param('id', ParseIntPipe) id: number) {
     return this.productService.deleteProductById(+id);
+  }
+
+  @Get('/image/:imgpath')
+  seeUploadedFile(@Param('imgpath') image, @Res() res) {
+    return res.sendFile(image, { root: './files' });
   }
 }
