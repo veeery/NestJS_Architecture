@@ -10,7 +10,11 @@ import { ValidationErrorException } from 'src/common/exceptions/validation-excep
 import { paginate, Pagination } from 'nestjs-typeorm-paginate';
 import { like } from 'src/common/utils/orm';
 import { Product } from 'src/modules/public/product/product.entity';
-import { AddNewProductDTO, ProductQuery } from './product.dto';
+import {
+  AddNewProductDTO,
+  ProductQuery,
+  UpdateProductDTO,
+} from './product.dto';
 import { ServerMessage } from 'src/common/interfaces/server-message.interface';
 import { createWriteStream } from 'fs';
 import { uploadImage } from 'src/common/utils/auto_folder';
@@ -33,7 +37,7 @@ export class ProductService {
   ) {
     const product = this.productRepository.create(addNewProduct);
     const imageName = `${Date.now()}-${image.originalname}`;
-    product.imageUrl = `product/image/${imageName}`;
+    product.image = `product/image/${imageName}`;
 
     try {
       const returnData = (await product.save()).toJson;
@@ -53,25 +57,23 @@ export class ProductService {
   }
 
   async getProductById(id: number): Promise<SuccessResponse<Product>> {
-    const product = await this.productRepository.findOne({
+    var product = await this.productRepository.findOne({
       where: { id },
       relations: {},
     });
     if (!product) {
-      return await this.getProductByScanCode(id.toString());
+      product = await this.getProductByScanCode(id.toString());
     }
     return { data: product };
   }
 
-  async getProductByScanCode(
-    scanCode: string,
-  ): Promise<SuccessResponse<Product>> {
+  async getProductByScanCode(scanCode: string): Promise<Product> {
     const product = await this.productRepository.findOne({
       where: { scanCode },
       relations: {},
     });
     if (!product) throw new NotFoundException('Product Not Found');
-    return { data: product };
+    return product;
   }
 
   async getAllProduct(
@@ -123,5 +125,39 @@ export class ProductService {
     }
 
     return { message: 'Product Successfully Delete' };
+  }
+
+  async updateProduct(
+    id: number,
+    updateProductDto: UpdateProductDTO,
+    image: Express.Multer.File,
+  ) {
+    var product = await this.productRepository.findOne({
+      where: { id },
+      relations: {},
+    });
+
+    if (!product) {
+      product = await this.getProductByScanCode(id.toString());
+    }
+
+    const ImageUpdate = `${Date.now()}-${image.originalname}`;
+    product.image = `product/image/${ImageUpdate}`;
+
+    const updateProduct = this.productRepository.create({
+      ...product,
+      ...updateProductDto,
+    });
+
+    try {
+      const returnDataUpdated = (await updateProduct.save()).toJson;
+
+      return {
+        data: returnDataUpdated,
+        message: 'Succesfully Update Product',
+      };
+    } catch (err) {
+      throw err;
+    }
   }
 }

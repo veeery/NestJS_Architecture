@@ -25,7 +25,7 @@ export class Product extends Model {
   unit: string;
 
   @Column()
-  imageUrl: string;
+  image: string;
 
   toJson() {
     return this;

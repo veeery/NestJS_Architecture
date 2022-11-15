@@ -17,7 +17,11 @@ import {
 import { create } from 'domain';
 import { UpdateDateColumn } from 'typeorm';
 import { ProductService } from './product.service';
-import { AddNewProductDTO, ProductQuery } from './product.dto';
+import {
+  AddNewProductDTO,
+  ProductQuery,
+  UpdateProductDTO,
+} from './product.dto';
 import { AuthGuard } from '@nestjs/passport';
 import { AnyFilesInterceptor, FileInterceptor } from '@nestjs/platform-express';
 
@@ -35,6 +39,16 @@ export class ProductController {
     return this.productService.addNewProduct(addNewProductDto, image);
   }
 
+  @Patch(':id')
+  @UseInterceptors(FileInterceptor('image'))
+  updateProduct(
+    @UploadedFile() image: Express.Multer.File,
+    @Body() updateProductDto: UpdateProductDTO,
+    @Param('id', ParseIntPipe) id: number,
+  ) {
+    return this.productService.updateProduct(id, updateProductDto, image);
+  }
+
   @Get()
   getAllProduct(@Query() productQuery: ProductQuery) {
     return this.productService.getAllProduct(productQuery);
@@ -48,10 +62,5 @@ export class ProductController {
   @Delete(':id')
   deleteProduct(@Param('id', ParseIntPipe) id: number) {
     return this.productService.deleteProductById(+id);
-  }
-
-  @Get('/image/:imgpath')
-  seeUploadedFile(@Param('imgpath') image, @Res() res) {
-    return res.sendFile(image, { root: './files' });
   }
 }
