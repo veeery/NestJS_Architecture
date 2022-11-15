@@ -21,12 +21,13 @@ import {
   AddNewProductDTO,
   ProductQuery,
   UpdateProductDTO,
+  UpdateQtyProductDTO,
 } from './product.dto';
 import { AuthGuard } from '@nestjs/passport';
 import { AnyFilesInterceptor, FileInterceptor } from '@nestjs/platform-express';
 
 @Controller({ path: 'product' })
-@UseGuards(AuthGuard())
+// @UseGuards(AuthGuard())
 export class ProductController {
   constructor(private readonly productService: ProductService) {}
 
@@ -49,6 +50,22 @@ export class ProductController {
     return this.productService.updateProduct(id, updateProductDto, image);
   }
 
+  @Patch(':id/scan')
+  updateQtyProduct(
+    @Body() updateQtyProductDto: UpdateQtyProductDTO,
+    @Param('id', ParseIntPipe) id: number,
+  ) {
+    return this.productService.scanQtyProduct(id, updateQtyProductDto);
+  }
+
+  @Patch(':id/add')
+  addQtyProduct(
+    @Body() updateQtyProductDto: UpdateQtyProductDTO,
+    @Param('id', ParseIntPipe) id: number,
+  ) {
+    return this.productService.addQtyProduct(id, updateQtyProductDto);
+  }
+
   @Get()
   getAllProduct(@Query() productQuery: ProductQuery) {
     return this.productService.getAllProduct(productQuery);
@@ -62,5 +79,10 @@ export class ProductController {
   @Delete(':id')
   deleteProduct(@Param('id', ParseIntPipe) id: number) {
     return this.productService.deleteProductById(+id);
+  }
+
+  @Get('/image/:imgpath')
+  seeUploadedFile(@Param('imgpath') image, @Res() res) {
+    return res.sendFile(image, { root: './files' });
   }
 }

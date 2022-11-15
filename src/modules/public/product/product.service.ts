@@ -3,21 +3,21 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { SuccessResponse } from 'src/common/interfaces/response.interface';
-import { In, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ValidationErrorException } from 'src/common/exceptions/validation-exception';
 import { paginate, Pagination } from 'nestjs-typeorm-paginate';
+import { ValidationErrorException } from 'src/common/exceptions/validation-exception';
+import { SuccessResponse } from 'src/common/interfaces/response.interface';
+import { ServerMessage } from 'src/common/interfaces/server-message.interface';
+import { uploadImage } from 'src/common/utils/auto_folder';
 import { like } from 'src/common/utils/orm';
 import { Product } from 'src/modules/public/product/product.entity';
+import { Repository } from 'typeorm';
 import {
   AddNewProductDTO,
   ProductQuery,
   UpdateProductDTO,
+  UpdateQtyProductDTO,
 } from './product.dto';
-import { ServerMessage } from 'src/common/interfaces/server-message.interface';
-import { createWriteStream } from 'fs';
-import { uploadImage } from 'src/common/utils/auto_folder';
 
 @Injectable()
 export class ProductService {
@@ -151,6 +151,7 @@ export class ProductService {
 
     try {
       const returnDataUpdated = (await updateProduct.save()).toJson;
+      uploadImage(image, ImageUpdate);
 
       return {
         data: returnDataUpdated,
@@ -159,5 +160,54 @@ export class ProductService {
     } catch (err) {
       throw err;
     }
+  }
+
+  async scanQtyProduct(id: number, updateQtyProductDto: UpdateQtyProductDTO) {
+    var product = await this.productRepository.findOne({
+      where: { id },
+      relations: {},
+    });
+
+    if (!product) {
+      product = await this.getProductByScanCode(id.toString());
+    }
+
+    const updateQty = product.qty - updateQtyProductDto.qty;
+
+    if (updateQty <= 0) {
+      return {
+        message: 'Qty Product Not Enough!',
+      };
+    }
+
+    product.qty = updateQty;
+
+    const returnDataQtyUpdate = (await product.save()).toJson;
+
+    return {
+      data: returnDataQtyUpdate,
+      message: 'Successfully Update Qty Product',
+    };
+  }
+
+  async addQtyProduct(id: number, updateQtyProductDto: UpdateQtyProductDTO) {
+    var product = await this.productRepository.findOne({
+      where: { id },
+      relations: {},
+    });
+
+    if (!product) {
+      product = await this.getProductByScanCode(id.toString());
+    }
+
+    const updateAddQty = product.qty + updateQtyProductDto.qty;
+    product.qty = updateAddQty;
+
+    const returnDataQtyUpdate = (await product.save()).toJson;
+
+    return {
+      data: returnDataQtyUpdate,
+      message: 'Successfully Add Qty Product',
+    };
   }
 }

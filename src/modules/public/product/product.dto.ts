@@ -22,7 +22,7 @@ export class AddNewProductDTO extends BaseProductDto {
 
   @IsOptional()
   @IsString()
-  image: string;
+  imageUrl: string;
 }
 
 export class UpdateProductDTO extends BaseProductDto {
@@ -33,12 +33,12 @@ export class UpdateProductDTO extends BaseProductDto {
   @IsOptional()
   @IsString()
   unit: string;
-
-  @IsOptional()
-  @IsString()
-  image: string;
 }
 
-
+export class UpdateQtyProductDTO {
+  @IsNotEmpty()
+  @IsNumber()
+  qty: number;
+}
 
 export class ProductQuery extends PaginationQuery {}
