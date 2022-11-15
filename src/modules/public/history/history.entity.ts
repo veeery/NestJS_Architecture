@@ -26,6 +26,10 @@ export class History extends Model {
   @Column()
   userId: number;
 
-  @OneToMany(() => HistoryDetail, (historyDetail) => historyDetail.history)
+  @OneToMany(() => HistoryDetail, (historyDetail) => historyDetail.history, {
+    cascade: true,
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
   historyDetail: HistoryDetail[];
 }

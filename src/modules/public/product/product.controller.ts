@@ -27,7 +27,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { AnyFilesInterceptor, FileInterceptor } from '@nestjs/platform-express';
 
 @Controller({ path: 'product' })
-// @UseGuards(AuthGuard())
+@UseGuards(AuthGuard())
 export class ProductController {
   constructor(private readonly productService: ProductService) {}
 

@@ -15,7 +15,7 @@ import { Product } from '../product/product.entity';
 
 @Entity()
 export class HistoryDetail extends Model {
-  @ManyToOne(() => History)
+  @ManyToOne(() => History, history => history.historyDetail)
   history: History;
 
   @ManyToOne(() => Product)

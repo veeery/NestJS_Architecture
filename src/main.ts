@@ -1,9 +1,9 @@
-import { NestFactory } from '@nestjs/core';
-import { AppModule } from 'src/modules/app/app.module';
-import { AppConfigService } from 'src/modules/app/app-config.services';
 import { Logger, ValidationPipe } from '@nestjs/common';
-import { LoggingInterceptor } from 'src/common/interceptors/logging.interceptor';
+import { NestFactory } from '@nestjs/core';
 import helmet from 'helmet';
+import { LoggingInterceptor } from 'src/common/interceptors/logging.interceptor';
+import { AppConfigService } from 'src/modules/app/app-config.services';
+import { AppModule } from 'src/modules/app/app.module';
 import { createExceptionFactory } from './common/core/exception-factory';
 
 async function bootstrap() {

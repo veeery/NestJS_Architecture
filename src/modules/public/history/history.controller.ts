@@ -1,15 +1,7 @@
 import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  ParseIntPipe,
-  Param,
-  Delete,
-  Query,
-  Req,
-  UseGuards,
+  Body, Controller,
+  Get, Param, ParseIntPipe, Post, Req,
+  UseGuards
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { UserRequest } from 'src/common/interfaces/request.interface';

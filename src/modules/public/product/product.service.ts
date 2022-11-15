@@ -57,7 +57,7 @@ export class ProductService {
   }
 
   async getProductById(id: number): Promise<SuccessResponse<Product>> {
-    var product = await this.productRepository.findOne({
+    let product = await this.productRepository.findOne({
       where: { id },
       relations: {},
     });
@@ -172,15 +172,11 @@ export class ProductService {
       product = await this.getProductByScanCode(id.toString());
     }
 
-    const updateQty = product.qty - updateQtyProductDto.qty;
-
-    if (updateQty <= 0) {
-      return {
-        message: 'Qty Product Not Enough!',
-      };
+    if (product.qty <= updateQtyProductDto.qty) {
+      throw new BadRequestException('Qty Product Not Enough');
     }
 
-    product.qty = updateQty;
+    product.qty -= updateQtyProductDto.qty;
 
     const returnDataQtyUpdate = (await product.save()).toJson;
 
@@ -200,8 +196,7 @@ export class ProductService {
       product = await this.getProductByScanCode(id.toString());
     }
 
-    const updateAddQty = product.qty + updateQtyProductDto.qty;
-    product.qty = updateAddQty;
+    product.qty += updateQtyProductDto.qty;
 
     const returnDataQtyUpdate = (await product.save()).toJson;
 

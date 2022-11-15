@@ -1,15 +1,14 @@
 import {
   BadRequestException,
   Injectable,
-  UnauthorizedException,
+  UnauthorizedException
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ValidationErrorException } from 'src/common/exceptions/validation-exception';
 import { UserRequest } from 'src/common/interfaces/request.interface';
 import {
-  AuthSuccess,
-  SuccessResponse,
+  AuthSuccess
 } from 'src/common/interfaces/response.interface';
 import { ServerMessage } from 'src/common/interfaces/server-message.interface';
 import { AppConfigService } from 'src/modules/app/app-config.services';
