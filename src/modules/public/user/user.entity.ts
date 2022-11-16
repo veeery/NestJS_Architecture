@@ -1,16 +1,7 @@
-import { Model } from 'src/common/core/model';
-import * as bcrypt from 'bcrypt';
-import {
-  BeforeInsert,
-  BeforeUpdate,
-  Column,
-  DeleteDateColumn,
-  Entity,
-  ManyToMany,
-  JoinTable,
-  OneToMany,
-} from 'typeorm';
 import { UnauthorizedException } from '@nestjs/common';
+import * as bcrypt from 'bcrypt';
+import { Model } from 'src/common/core/model';
+import { BeforeInsert, BeforeUpdate, Column, Entity, OneToMany } from 'typeorm';
 import { History } from '../history/history.entity';
 
 @Entity()
@@ -27,7 +18,11 @@ export class User extends Model {
   @Column({ nullable: true })
   public currentHashedRefreshToken: string;
 
-  @OneToMany(() => History, (history) => history.user)
+  @OneToMany(() => History, (history) => history.user, {
+    cascade: true,
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
   history: History[];
 
   token?: string;

@@ -6,12 +6,16 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { paginate, Pagination } from 'nestjs-typeorm-paginate';
 import { ValidationErrorException } from 'src/common/exceptions/validation-exception';
+import { UserRequest } from 'src/common/interfaces/request.interface';
 import { SuccessResponse } from 'src/common/interfaces/response.interface';
 import { ServerMessage } from 'src/common/interfaces/server-message.interface';
 import { uploadImage } from 'src/common/utils/auto_folder';
 import { like } from 'src/common/utils/orm';
 import { Product } from 'src/modules/public/product/product.entity';
 import { Repository } from 'typeorm';
+import { CreateHistoryDetailDTO } from '../history-detail/history-detail.dto';
+import { CreateHistoryDTO } from '../history/history.dto';
+import { HistoryService } from '../history/history.service';
 import {
   AddNewProductDTO,
   ProductQuery,
@@ -24,6 +28,7 @@ export class ProductService {
   constructor(
     @InjectRepository(Product)
     private productRepository: Repository<Product>,
+    private historyService: HistoryService,
   ) {}
 
   async uploadSingleImage(image: Express.Multer.File) {
@@ -162,7 +167,11 @@ export class ProductService {
     }
   }
 
-  async scanQtyProduct(id: number, updateQtyProductDto: UpdateQtyProductDTO) {
+  async scanQtyProduct(
+    id: number,
+    updateQtyProductDto: UpdateQtyProductDTO,
+    userRequest: UserRequest,
+  ) {
     var product = await this.productRepository.findOne({
       where: { id },
       relations: {},
@@ -172,11 +181,18 @@ export class ProductService {
       product = await this.getProductByScanCode(id.toString());
     }
 
-    if (product.qty <= updateQtyProductDto.qty) {
-      throw new BadRequestException('Qty Product Not Enough');
-    }
+    const historyDetail: CreateHistoryDTO = {
+      note: '',
+      userId: null,
+      historyDetail: [
+        {
+          productId: product.id,
+          qty: updateQtyProductDto.qty,
+        },
+      ],
+    };
 
-    product.qty -= updateQtyProductDto.qty;
+    this.historyService.createHistory(historyDetail, userRequest);
 
     const returnDataQtyUpdate = (await product.save()).toJson;
 

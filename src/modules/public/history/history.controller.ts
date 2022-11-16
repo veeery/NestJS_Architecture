@@ -1,11 +1,17 @@
 import {
-  Body, Controller,
-  Get, Param, ParseIntPipe, Post, Req,
+  Body,
+  Controller,
+  Get,
+  Param,
+  ParseIntPipe,
+  Post,
+  Query,
+  Req,
   UseGuards
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { UserRequest } from 'src/common/interfaces/request.interface';
-import { CreateHistoryDTO } from './history.dto';
+import { CreateHistoryDTO, HistoryQuery } from './history.dto';
 import { HistoryService } from './history.service';
 
 @Controller({ path: 'history' })
@@ -19,6 +25,14 @@ export class HistoryController {
     @Req() userRequest: UserRequest,
   ) {
     return this.historyService.createHistory(createHistoryDto, userRequest);
+  }
+
+  @Get('user')
+  getHistoryByUser(
+    @Req() userRequest: UserRequest,
+    @Query() historyQuery: HistoryQuery,
+  ) {
+    return this.historyService.getHistoryByUser(historyQuery, userRequest);
   }
 
   @Get(':id')
