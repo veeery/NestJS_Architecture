@@ -12,6 +12,7 @@ async function bootstrap() {
   const config = app.get(AppConfigService);
   const { port, url } = config.app;
 
+
   app.useGlobalPipes(
     new ValidationPipe({
       transform: true,
