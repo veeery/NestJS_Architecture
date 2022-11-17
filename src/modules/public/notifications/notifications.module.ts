@@ -1,11 +1,12 @@
-import { Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { notificationsController } from './notifications.controller';
+import {
+  Module
+} from '@nestjs/common';
+import { NotificationsController } from './notifications.controller';
 import { NotificationsService } from './notifications.service';
 
 @Module({
   imports: [],
-  controllers: [notificationsController],
+  controllers: [NotificationsController],
   providers: [NotificationsService],
   exports: [NotificationsService],
 })
