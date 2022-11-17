@@ -1,14 +1,13 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { SuccessResponse } from 'src/common/interfaces/response.interface';
-import { In, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import { User } from './user.entity';
-import { CreateUserDTO, UpdateUserProfileDTO, UserQuery } from './user.dto';
-import { ValidationErrorException } from 'src/common/exceptions/validation-exception';
 import { paginate, Pagination } from 'nestjs-typeorm-paginate';
-import { like } from 'src/common/utils/orm';
+import { ValidationErrorException } from 'src/common/exceptions/validation-exception';
+import { SuccessResponse } from 'src/common/interfaces/response.interface';
 import { ServerMessage } from 'src/common/interfaces/server-message.interface';
-import { Product } from '../product/product.entity';
+import { like } from 'src/common/utils/orm';
+import { Repository } from 'typeorm';
+import { CreateUserDTO, UpdateUserProfileDTO, UserQuery } from './user.dto';
+import { User } from './user.entity';
 
 @Injectable()
 export class UserService {

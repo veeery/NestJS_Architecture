@@ -7,10 +7,7 @@ import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ValidationErrorException } from 'src/common/exceptions/validation-exception';
 import { UserRequest } from 'src/common/interfaces/request.interface';
-import {
-  AuthSuccess,
-  SuccessResponse,
-} from 'src/common/interfaces/response.interface';
+import { AuthSuccess } from 'src/common/interfaces/response.interface';
 import { ServerMessage } from 'src/common/interfaces/server-message.interface';
 import { AppConfigService } from 'src/modules/app/app-config.services';
 import { Repository } from 'typeorm';
@@ -117,12 +114,9 @@ export class AuthService {
   async findOne(id: number): Promise<User> {
     const [user] = await this.userRepository.find({
       where: { id },
-      relations: {
-        history: true,
-      },
     });
     if (!user) throw new UnauthorizedException();
-    return user;
+    return user.toJson();
   }
 
   async getUserIfRefreshTokenMatches(refreshToken: string, userId: number) {

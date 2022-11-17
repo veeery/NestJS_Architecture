@@ -1,12 +1,5 @@
 import {
-  Body,
-  Get,
-  HttpCode,
-  Post,
-  UseGuards,
-  Req,
-  Patch,
-  Controller,
+  Body, Controller, HttpCode, Patch, Post, Req, UseGuards
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { UserRequest } from 'src/common/interfaces/request.interface';

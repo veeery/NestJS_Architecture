@@ -1,20 +1,10 @@
 import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  ParseIntPipe,
-  Param,
-  Delete,
-  Query,
-  UseGuards,
+  Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, Query,
+  UseGuards
 } from '@nestjs/common';
-import { create } from 'domain';
-import { UpdateDateColumn } from 'typeorm';
+import { AuthGuard } from '@nestjs/passport';
 import { CreateUserDTO, UpdateUserProfileDTO, UserQuery } from './user.dto';
 import { UserService } from './user.service';
-import { AuthGuard } from '@nestjs/passport';
 
 @Controller({ path: 'user' })
 @UseGuards(AuthGuard())

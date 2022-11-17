@@ -45,3 +45,5 @@ export class GetHistoryDTO {
   @ArrayMinSize(1)
   historyDetail: CreateHistoryDetailDTO[];
 }
+
+export class HistoryQuery extends PaginationQuery {}
