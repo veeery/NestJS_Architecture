@@ -137,7 +137,7 @@ export class ProductService {
     updateProductDto: UpdateProductDTO,
     image: Express.Multer.File,
   ) {
-    var product = await this.productRepository.findOne({
+    let product = await this.productRepository.findOne({
       where: { id },
       relations: {},
     });
@@ -146,8 +146,12 @@ export class ProductService {
       product = await this.getProductByScanCode(id.toString());
     }
 
-    const ImageUpdate = `${Date.now()}-${image.originalname}`;
-    product.image = `product/image/${ImageUpdate}`;
+    let ImageUpdate: string;
+
+    if (image) {
+      ImageUpdate = `${product.image.split('/')[2]}`;
+      product.image = `product/image/${ImageUpdate}`;
+    }
 
     const updateProduct = this.productRepository.create({
       ...product,
@@ -155,8 +159,10 @@ export class ProductService {
     });
 
     try {
-      const returnDataUpdated = (await updateProduct.save()).toJson;
-      uploadImage(image, ImageUpdate);
+      const returnDataUpdated = (await updateProduct.save()).toJson();
+      if (image) {
+        uploadImage(image, ImageUpdate);
+      }
 
       return {
         data: returnDataUpdated,
@@ -172,7 +178,7 @@ export class ProductService {
     updateQtyProductDto: UpdateQtyProductDTO,
     userRequest: UserRequest,
   ) {
-    var product = await this.productRepository.findOne({
+    let product = await this.productRepository.findOne({
       where: { id },
       relations: {},
     });
@@ -192,18 +198,24 @@ export class ProductService {
       ],
     };
 
-    this.historyService.createHistory(historyDetail, userRequest);
+    const createSuccess = await this.historyService.createHistory(
+      historyDetail,
+      userRequest,
+    );
 
-    const returnDataQtyUpdate = (await product.save()).toJson;
+    if (!createSuccess) {
+      throw new BadRequestException('Qty Product Not Enough');
+    }
+
+    await product.save();
 
     return {
-      data: returnDataQtyUpdate,
       message: 'Successfully Update Qty Product',
     };
   }
 
   async addQtyProduct(id: number, updateQtyProductDto: UpdateQtyProductDTO) {
-    var product = await this.productRepository.findOne({
+    let product = await this.productRepository.findOne({
       where: { id },
       relations: {},
     });
@@ -214,7 +226,7 @@ export class ProductService {
 
     product.qty += updateQtyProductDto.qty;
 
-    const returnDataQtyUpdate = (await product.save()).toJson;
+    const returnDataQtyUpdate = (await product.save()).toJson();
 
     return {
       data: returnDataQtyUpdate,
