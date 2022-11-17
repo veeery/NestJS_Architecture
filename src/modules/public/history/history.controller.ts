@@ -7,7 +7,7 @@ import {
   Post,
   Query,
   Req,
-  UseGuards
+  UseGuards,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { UserRequest } from 'src/common/interfaces/request.interface';
@@ -19,12 +19,17 @@ import { HistoryService } from './history.service';
 export class HistoryController {
   constructor(private readonly historyService: HistoryService) {}
 
-  @Post()
-  createHistory(
-    @Body() createHistoryDto: CreateHistoryDTO,
-    @Req() userRequest: UserRequest,
-  ) {
-    return this.historyService.createHistory(createHistoryDto, userRequest);
+  // @Post()
+  // createHistory(
+  //   @Body() createHistoryDto: CreateHistoryDTO,
+  //   @Req() userRequest: UserRequest,
+  // ) {
+  //   return this.historyService.createHistory(createHistoryDto, userRequest);
+  // }
+
+  @Get()
+  getAllHistory(@Query() historyQuery: HistoryQuery) {
+    return this.historyService.getAllHistory(historyQuery);
   }
 
   @Get('user')
