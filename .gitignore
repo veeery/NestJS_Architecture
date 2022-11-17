@@ -1,5 +1,6 @@
 ./files
 .env
+push-notifications.json
 
 # compiled output
 /dist
