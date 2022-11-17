@@ -12,6 +12,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { UserRequest } from 'src/common/interfaces/request.interface';
 import { ChangePasswordDTO, LoginDTO, RegisterDTO } from './auth.dto';
 import { AuthService } from './auth.service';
+import { JwtRefreshGuard } from './jwt-refresh.guard';
 
 @Controller({ path: `auth` })
 export class AuthController {
@@ -45,7 +46,7 @@ export class AuthController {
   }
 
   @Post('refresh')
-  @UseGuards(AuthGuard())
+  @UseGuards(JwtRefreshGuard)
   @HttpCode(200)
   refresh(@Req() request: UserRequest) {
     return this.authService.refreshToken(request);
