@@ -21,17 +21,19 @@ export class HistoryService {
   async createHistory(
     addHistory: CreateHistoryDTO,
     userRequest: UserRequest,
-  ): Promise<SuccessResponse<History>> {
+  ): Promise<boolean> {
     const history = this.historyRepository.create(addHistory);
 
     history.userId = userRequest.user.id;
-    await this.applyProductDetail(history);
+    const applySuccess = await this.applyProductDetail(history);
+
+    if (!applySuccess) {
+      return false;
+    }
 
     try {
-      return {
-        data: await history.save(),
-        message: 'Successfully Create History',
-      };
+      history.save();
+      return true;
     } catch (err) {
       throw new BadRequestException();
     }
@@ -57,7 +59,7 @@ export class HistoryService {
     const query = this.historyRepository.createQueryBuilder('history');
 
     query.where(equal('history.userId', userRequest.user.id));
-
+    query.leftJoinAndSelect('history.historyDetail', 'historyDetail');
     query.orderBy(`history.createdAt`, 'DESC');
 
     const paginated = paginate<History>(query, { limit, page });
@@ -65,7 +67,19 @@ export class HistoryService {
     return paginated;
   }
 
-  async applyProductDetail(history: History): Promise<void> {
+  async getAllHistory(historyQuery: HistoryQuery) {
+    const { limit, page, search, orderBy, sortBy } = historyQuery;
+    const query = this.historyRepository.createQueryBuilder('history');
+
+    query.leftJoinAndSelect('history.historyDetail', 'historyDetail');
+    query.orderBy(`history.createdAt`, 'DESC');
+
+    const paginated = paginate<History>(query, { limit, page });
+
+    return paginated;
+  }
+
+  async applyProductDetail(history: History): Promise<void | boolean> {
     const productIds = [];
     for (const historyDetail of history.historyDetail) {
       const product = await this.productRepository.findOne({
@@ -92,7 +106,7 @@ export class HistoryService {
       );
 
       if (product.qty < historyDetail.qty) {
-        throw new BadRequestException('Qty Product Not Enough');
+        return false;
       }
       product.qty -= historyDetail.qty;
 
@@ -102,5 +116,7 @@ export class HistoryService {
         throw err;
       }
     }
+
+    return true;
   }
 }
