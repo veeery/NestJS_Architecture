@@ -15,7 +15,7 @@ import { UserModule } from './user/user.module';
     HistoryModule,
     AuthModule,
     ImageModule,
-    NotificationsModule,
+    // NotificationsModule,
   ],
 })
 export default class PublicModule {}

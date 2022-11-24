@@ -3,7 +3,7 @@
 push-notifications.json
 
 # compiled output
-/dist
+# /dist
 /node_modules
 
 # Logs
