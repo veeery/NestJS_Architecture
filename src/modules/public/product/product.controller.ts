@@ -26,11 +26,11 @@ import {
 import { ProductService } from './product.service';
 
 @Controller({ path: 'product' })
-@UseGuards(AuthGuard())
 export class ProductController {
   constructor(private readonly productService: ProductService) {}
-
+  
   @Post()
+  @UseGuards(AuthGuard())
   @UseInterceptors(FileInterceptor('image'))
   addNewProduct(
     @UploadedFile() image: Express.Multer.File,
@@ -40,6 +40,7 @@ export class ProductController {
   }
 
   @Patch(':id')
+  @UseGuards(AuthGuard())
   @UseInterceptors(FileInterceptor('image'))
   updateProduct(
     @UploadedFile() image: Express.Multer.File,
@@ -50,6 +51,7 @@ export class ProductController {
   }
 
   @Patch(':id/scan-product')
+  @UseGuards(AuthGuard())
   updateQtyProduct(
     @Body() updateQtyProductDto: UpdateQtyProductDTO,
     @Param('id', ParseIntPipe) id: number,
@@ -62,6 +64,7 @@ export class ProductController {
     );
   }
 
+  @UseGuards(AuthGuard())
   @Patch(':id/add-product')
   addQtyProduct(
     @Body() updateQtyProductDto: UpdateQtyProductDTO,
@@ -71,16 +74,19 @@ export class ProductController {
   }
 
   @Get()
+  @UseGuards(AuthGuard())
   getAllProduct(@Query() productQuery: ProductQuery) {
     return this.productService.getAllProduct(productQuery);
   }
 
   @Get(':id')
+  @UseGuards(AuthGuard())
   getProduct(@Param('id', ParseIntPipe) id: number) {
     return this.productService.getProductById(+id);
   }
 
   @Delete(':id')
+  @UseGuards(AuthGuard())
   deleteProduct(@Param('id', ParseIntPipe) id: number) {
     return this.productService.deleteProductById(+id);
   }
