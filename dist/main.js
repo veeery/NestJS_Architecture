@@ -17,6 +17,7 @@ async function bootstrap() {
         whitelist: true,
         exceptionFactory: exception_factory_1.createExceptionFactory,
     }));
+    app.enableCors();
     if (config.isProduction) {
         app.use((0, helmet_1.default)());
     }

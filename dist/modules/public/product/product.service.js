@@ -33,12 +33,14 @@ let ProductService = class ProductService {
         return image;
     }
     async addNewProduct(addNewProduct, image) {
-        const product = this.productRepository.create(addNewProduct);
-        const imageName = `${Date.now()}-${image.originalname}`;
-        product.image = `product/image/${imageName}`;
         try {
+            const product = this.productRepository.create(addNewProduct);
+            if (image) {
+                const imageName = `${Date.now()}-${image.originalname}`;
+                product.image = `product/image/${imageName}`;
+                (0, auto_folder_1.uploadImage)(image, imageName);
+            }
             const returnData = (await product.save()).toJson;
-            (0, auto_folder_1.uploadImage)(image, imageName);
             return {
                 data: returnData,
                 message: 'Successfully Add New Product',

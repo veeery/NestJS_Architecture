@@ -49,6 +49,7 @@ let ProductController = class ProductController {
 };
 __decorate([
     (0, common_1.Post)(),
+    (0, common_1.UseGuards)((0, passport_1.AuthGuard)()),
     (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('image')),
     __param(0, (0, common_1.UploadedFile)()),
     __param(1, (0, common_1.Body)()),
@@ -58,6 +59,7 @@ __decorate([
 ], ProductController.prototype, "addNewProduct", null);
 __decorate([
     (0, common_1.Patch)(':id'),
+    (0, common_1.UseGuards)((0, passport_1.AuthGuard)()),
     (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('image')),
     __param(0, (0, common_1.UploadedFile)()),
     __param(1, (0, common_1.Body)()),
@@ -68,6 +70,7 @@ __decorate([
 ], ProductController.prototype, "updateProduct", null);
 __decorate([
     (0, common_1.Patch)(':id/scan-product'),
+    (0, common_1.UseGuards)((0, passport_1.AuthGuard)()),
     __param(0, (0, common_1.Body)()),
     __param(1, (0, common_1.Param)('id', common_1.ParseIntPipe)),
     __param(2, (0, common_1.Req)()),
@@ -76,6 +79,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], ProductController.prototype, "updateQtyProduct", null);
 __decorate([
+    (0, common_1.UseGuards)((0, passport_1.AuthGuard)()),
     (0, common_1.Patch)(':id/add-product'),
     __param(0, (0, common_1.Body)()),
     __param(1, (0, common_1.Param)('id', common_1.ParseIntPipe)),
@@ -85,6 +89,7 @@ __decorate([
 ], ProductController.prototype, "addQtyProduct", null);
 __decorate([
     (0, common_1.Get)(),
+    (0, common_1.UseGuards)((0, passport_1.AuthGuard)()),
     __param(0, (0, common_1.Query)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [product_dto_1.ProductQuery]),
@@ -92,6 +97,7 @@ __decorate([
 ], ProductController.prototype, "getAllProduct", null);
 __decorate([
     (0, common_1.Get)(':id'),
+    (0, common_1.UseGuards)((0, passport_1.AuthGuard)()),
     __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number]),
@@ -99,6 +105,7 @@ __decorate([
 ], ProductController.prototype, "getProduct", null);
 __decorate([
     (0, common_1.Delete)(':id'),
+    (0, common_1.UseGuards)((0, passport_1.AuthGuard)()),
     __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number]),
@@ -114,7 +121,6 @@ __decorate([
 ], ProductController.prototype, "seeUploadedFile", null);
 ProductController = __decorate([
     (0, common_1.Controller)({ path: 'product' }),
-    (0, common_1.UseGuards)((0, passport_1.AuthGuard)()),
     __metadata("design:paramtypes", [product_service_1.ProductService])
 ], ProductController);
 exports.ProductController = ProductController;
