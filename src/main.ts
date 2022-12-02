@@ -20,6 +20,8 @@ async function bootstrap() {
       exceptionFactory: createExceptionFactory,
     }),
   );
+
+  app.enableCors()
   
 
   if (config.isProduction) {
