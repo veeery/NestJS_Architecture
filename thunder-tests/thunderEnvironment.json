@@ -1,0 +1,20 @@
+[
+  {
+    "_id": "87b3478b-e5ba-4de8-8aa6-6d6e8379c2a6",
+    "name": "ITCS-Canteen",
+    "default": true,
+    "sortNum": 10000,
+    "created": "2022-12-02T02:11:28.968Z",
+    "modified": "2022-12-02T02:11:28.968Z",
+    "data": [
+      {
+        "name": "refreshToken",
+        "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJ1c2VyMSIsImlhdCI6MTY2OTk0NzI1NywiZXhwIjoxNjcwNDY1NjU3fQ.uCUPUXxhBiQEvFTTRvu1WRE9G6t59tJBsq7yj7yhopI"
+      },
+      {
+        "name": "token",
+        "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJ1c2VyMSIsImlhdCI6MTY2OTk0NzI1NywiZXhwIjoxNjY5OTUwODU3fQ.eQB8aa-pxE5jL-5EZIAiNkffHjDONutmg-SVT7QI9IU"
+      }
+    ]
+  }
+]

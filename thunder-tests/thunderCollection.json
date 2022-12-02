@@ -1,0 +1,57 @@
+[
+  {
+    "_id": "aaa1009a-063c-4edb-9c7f-12b0a77673d0",
+    "colName": "ITCS-Canteen",
+    "created": "2022-12-02T02:02:00.510Z",
+    "sortNum": 10000,
+    "folders": [
+      {
+        "_id": "f8b034a7-ee46-4116-8b02-623c133561f9",
+        "name": "Auth",
+        "containerId": "",
+        "created": "2022-12-02T02:02:12.090Z",
+        "sortNum": 10000
+      },
+      {
+        "_id": "87b1afac-7407-453d-823c-93c48df13c65",
+        "name": "Product",
+        "containerId": "",
+        "created": "2022-12-02T02:17:35.930Z",
+        "sortNum": 20000
+      },
+      {
+        "_id": "ce6ac7f7-5483-4cd5-9955-8f028d7e42cb",
+        "name": "User",
+        "containerId": "",
+        "created": "2022-12-02T03:03:27.731Z",
+        "sortNum": 30000
+      },
+      {
+        "_id": "ab263322-0eca-43c3-8a68-5938d9fca284",
+        "name": "History",
+        "containerId": "",
+        "created": "2022-12-02T03:04:26.689Z",
+        "sortNum": 40000
+      },
+      {
+        "_id": "c732c4d7-1d87-4051-83f4-4075dc645468",
+        "name": "Notifications",
+        "containerId": "",
+        "created": "2022-12-02T03:05:18.052Z",
+        "sortNum": 50000
+      }
+    ],
+    "settings": {
+      "headers": [],
+      "auth": {
+        "type": "bearer",
+        "bearer": "{{token}}"
+      },
+      "tests": [],
+      "options": {
+        "baseUrl": "http://localhost:3000"
+      },
+      "envId": "87b3478b-e5ba-4de8-8aa6-6d6e8379c2a6"
+    }
+  }
+]

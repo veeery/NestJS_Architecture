@@ -1,0 +1,472 @@
+[
+  {
+    "_id": "a68ef66d-7d70-4fb7-9e31-6cbac4b4e8a9",
+    "colId": "aaa1009a-063c-4edb-9c7f-12b0a77673d0",
+    "containerId": "f8b034a7-ee46-4116-8b02-623c133561f9",
+    "name": "Login",
+    "url": "/auth/login",
+    "method": "POST",
+    "sortNum": 10000,
+    "created": "2022-12-02T02:07:22.106Z",
+    "modified": "2022-12-02T02:14:10.932Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"username\":\"user1\",\n  \"password\":\"123123\"\n}",
+      "form": []
+    },
+    "tests": [
+      {
+        "type": "set-env-var",
+        "custom": "json.token",
+        "action": "setto",
+        "value": "{{token}}"
+      },
+      {
+        "type": "set-env-var",
+        "custom": "json.refreshToken",
+        "action": "setto",
+        "value": "{{refreshToken}}"
+      }
+    ]
+  },
+  {
+    "_id": "a925461f-ff04-46c9-8acf-aca4a4a1667a",
+    "colId": "aaa1009a-063c-4edb-9c7f-12b0a77673d0",
+    "containerId": "f8b034a7-ee46-4116-8b02-623c133561f9",
+    "name": "Register",
+    "url": "/auth/register",
+    "method": "POST",
+    "sortNum": 20000,
+    "created": "2022-12-02T02:10:00.639Z",
+    "modified": "2022-12-02T02:10:57.324Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"name\":\"joko\",\n  \"username\":\"user1\",\n  \"password\":\"123123\"\n}",
+      "form": []
+    },
+    "tests": []
+  },
+  {
+    "_id": "3a7e4f86-2240-40a9-9f37-14afc94f68d2",
+    "colId": "aaa1009a-063c-4edb-9c7f-12b0a77673d0",
+    "containerId": "87b1afac-7407-453d-823c-93c48df13c65",
+    "name": "Get Product",
+    "url": "/product/1",
+    "method": "GET",
+    "sortNum": 25000,
+    "created": "2022-12-02T02:17:18.297Z",
+    "modified": "2022-12-02T03:08:17.510Z",
+    "headers": [],
+    "params": [],
+    "auth": {
+      "type": "bearer",
+      "bearer": "{{token}}"
+    },
+    "tests": []
+  },
+  {
+    "_id": "1cb91952-ed61-49b5-9121-e25e826f11ef",
+    "colId": "aaa1009a-063c-4edb-9c7f-12b0a77673d0",
+    "containerId": "87b1afac-7407-453d-823c-93c48df13c65",
+    "name": "Get All Product",
+    "url": "/product?limit=10&page=1&sortBy=ASC",
+    "method": "GET",
+    "sortNum": 20000,
+    "created": "2022-12-02T02:17:18.298Z",
+    "modified": "2022-12-02T02:18:17.561Z",
+    "headers": [],
+    "params": [
+      {
+        "name": "limit",
+        "value": "10",
+        "isPath": false
+      },
+      {
+        "name": "page",
+        "value": "1",
+        "isPath": false
+      },
+      {
+        "name": "search",
+        "value": "",
+        "isDisabled": true,
+        "isPath": false
+      },
+      {
+        "name": "orderBy",
+        "value": "",
+        "isDisabled": true,
+        "isPath": false
+      },
+      {
+        "name": "sortBy",
+        "value": "ASC",
+        "isPath": false
+      }
+    ],
+    "auth": {
+      "type": "bearer",
+      "bearer": "{{token}}"
+    },
+    "tests": []
+  },
+  {
+    "_id": "aa9b3ba8-0576-4abf-8bfc-6daaa62d1976",
+    "colId": "aaa1009a-063c-4edb-9c7f-12b0a77673d0",
+    "containerId": "87b1afac-7407-453d-823c-93c48df13c65",
+    "name": "Delete Product",
+    "url": "/product/35",
+    "method": "DELETE",
+    "sortNum": 30000,
+    "created": "2022-12-02T02:17:18.299Z",
+    "modified": "2022-12-02T02:18:24.897Z",
+    "headers": [],
+    "params": [],
+    "auth": {
+      "type": "bearer",
+      "bearer": "{{token}}"
+    },
+    "tests": []
+  },
+  {
+    "_id": "3f9e1b5a-c402-4f92-aa8b-00d45a58e596",
+    "colId": "aaa1009a-063c-4edb-9c7f-12b0a77673d0",
+    "containerId": "87b1afac-7407-453d-823c-93c48df13c65",
+    "name": "Add New Product",
+    "url": "/product",
+    "method": "POST",
+    "sortNum": 40000,
+    "created": "2022-12-02T02:17:18.300Z",
+    "modified": "2022-12-02T03:01:00.448Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "formdata",
+      "raw": "",
+      "form": [
+        {
+          "name": "name",
+          "value": "Luwak White Koffie1"
+        },
+        {
+          "name": "scanCode",
+          "value": "LuwakWKLS11"
+        },
+        {
+          "name": "unit",
+          "value": "Bunkus"
+        }
+      ],
+      "files": [
+        {
+          "name": "image",
+          "value": "d:\\Ama\\Download\\Group 1.png"
+        }
+      ]
+    },
+    "auth": {
+      "type": "bearer",
+      "bearer": "{{token}}"
+    },
+    "tests": []
+  },
+  {
+    "_id": "9e7053db-d439-419a-973e-efe6ef0b8270",
+    "colId": "aaa1009a-063c-4edb-9c7f-12b0a77673d0",
+    "containerId": "87b1afac-7407-453d-823c-93c48df13c65",
+    "name": "Update Product",
+    "url": "/product/1",
+    "method": "PATCH",
+    "sortNum": 50000,
+    "created": "2022-12-02T02:17:18.301Z",
+    "modified": "2022-12-02T03:10:01.071Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "formdata",
+      "raw": "",
+      "form": [
+        {
+          "name": "name",
+          "value": "Tehh es"
+        },
+        {
+          "name": "unit",
+          "value": "Kaleng",
+          "isDisabled": true
+        }
+      ],
+      "files": [
+        {
+          "name": "image",
+          "value": "C:\\D:\\Screenshot_2.png",
+          "isDisabled": true
+        }
+      ]
+    },
+    "auth": {
+      "type": "bearer",
+      "bearer": "{{token}}"
+    },
+    "tests": []
+  },
+  {
+    "_id": "d6f987df-cdf4-4fed-8c0d-40eaefb32619",
+    "colId": "aaa1009a-063c-4edb-9c7f-12b0a77673d0",
+    "containerId": "87b1afac-7407-453d-823c-93c48df13c65",
+    "name": "Scan Product",
+    "url": "/product/1/scan-product",
+    "method": "PATCH",
+    "sortNum": 60000,
+    "created": "2022-12-02T02:17:18.302Z",
+    "modified": "2022-12-02T03:10:38.727Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n    \"qty\": 1\n}",
+      "form": []
+    },
+    "auth": {
+      "type": "bearer",
+      "bearer": "{{token}}"
+    },
+    "tests": []
+  },
+  {
+    "_id": "41ac4aaa-9e38-4575-ba63-4b2a6d91ba68",
+    "colId": "aaa1009a-063c-4edb-9c7f-12b0a77673d0",
+    "containerId": "87b1afac-7407-453d-823c-93c48df13c65",
+    "name": "Add Qty Product",
+    "url": "/product/1/add-product",
+    "method": "PATCH",
+    "sortNum": 70000,
+    "created": "2022-12-02T02:17:18.303Z",
+    "modified": "2022-12-02T03:10:56.190Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n    \"qty\": 10\n}",
+      "form": []
+    },
+    "auth": {
+      "type": "bearer",
+      "bearer": "{{token}}"
+    },
+    "tests": []
+  },
+  {
+    "_id": "91fde6ad-c659-4394-8910-e8f6a1d0bb56",
+    "colId": "aaa1009a-063c-4edb-9c7f-12b0a77673d0",
+    "containerId": "ce6ac7f7-5483-4cd5-9955-8f028d7e42cb",
+    "name": "Create User By Admin",
+    "url": "/user",
+    "method": "POST",
+    "sortNum": 10000,
+    "created": "2022-12-02T03:03:18.843Z",
+    "modified": "2022-12-02T03:07:16.325Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n    \"name\": \"Very\",\n    \"username\": \"very\",\n    \"password\": \"123456\"\n}",
+      "form": []
+    },
+    "tests": []
+  },
+  {
+    "_id": "373d6216-96cb-4179-bdee-c26018da8cbb",
+    "colId": "aaa1009a-063c-4edb-9c7f-12b0a77673d0",
+    "containerId": "ce6ac7f7-5483-4cd5-9955-8f028d7e42cb",
+    "name": "Get User",
+    "url": "/user/2",
+    "method": "GET",
+    "sortNum": 7500,
+    "created": "2022-12-02T03:03:18.844Z",
+    "modified": "2022-12-02T03:07:05.559Z",
+    "headers": [],
+    "params": [],
+    "auth": {
+      "type": "bearer",
+      "bearer": "{{token}}"
+    },
+    "tests": []
+  },
+  {
+    "_id": "fc271603-c47c-45fb-8f64-7c9d1da499ab",
+    "colId": "aaa1009a-063c-4edb-9c7f-12b0a77673d0",
+    "containerId": "ce6ac7f7-5483-4cd5-9955-8f028d7e42cb",
+    "name": "Get All User",
+    "url": "/user?limit=10&page=1&sortBy=DESC",
+    "method": "GET",
+    "sortNum": 5000,
+    "created": "2022-12-02T03:03:18.845Z",
+    "modified": "2022-12-02T03:06:25.227Z",
+    "headers": [],
+    "params": [
+      {
+        "name": "limit",
+        "value": "10",
+        "isPath": false
+      },
+      {
+        "name": "page",
+        "value": "1",
+        "isPath": false
+      },
+      {
+        "name": "search",
+        "value": "",
+        "isDisabled": true,
+        "isPath": false
+      },
+      {
+        "name": "orderBy",
+        "value": "id",
+        "isDisabled": true,
+        "isPath": false
+      },
+      {
+        "name": "sortBy",
+        "value": "DESC",
+        "isPath": false
+      }
+    ],
+    "body": {
+      "type": "formdata",
+      "raw": "",
+      "form": [
+        {
+          "name": "limit",
+          "value": "10"
+        },
+        {
+          "name": "page",
+          "value": "1"
+        }
+      ]
+    },
+    "auth": {
+      "type": "bearer",
+      "bearer": "{{token}}"
+    },
+    "tests": []
+  },
+  {
+    "_id": "850ba726-7053-468c-9c09-856e4bcfdca0",
+    "colId": "aaa1009a-063c-4edb-9c7f-12b0a77673d0",
+    "containerId": "ce6ac7f7-5483-4cd5-9955-8f028d7e42cb",
+    "name": "Update Profile",
+    "url": "/user/13",
+    "method": "PATCH",
+    "sortNum": 40000,
+    "created": "2022-12-02T03:03:18.846Z",
+    "modified": "2022-12-02T03:07:21.629Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n    \"name\": \"very\",\n    \"password\": \"999999\"\n}",
+      "form": []
+    },
+    "tests": []
+  },
+  {
+    "_id": "b7067062-14dd-41e0-853b-42f15b4e9d2b",
+    "colId": "aaa1009a-063c-4edb-9c7f-12b0a77673d0",
+    "containerId": "ce6ac7f7-5483-4cd5-9955-8f028d7e42cb",
+    "name": "Delete User",
+    "url": "/user/16",
+    "method": "DELETE",
+    "sortNum": 50000,
+    "created": "2022-12-02T03:03:18.847Z",
+    "modified": "2022-12-02T03:07:28.150Z",
+    "headers": [],
+    "params": [],
+    "tests": []
+  },
+  {
+    "_id": "ec135b1e-7652-417e-a041-087b899965d0",
+    "colId": "aaa1009a-063c-4edb-9c7f-12b0a77673d0",
+    "containerId": "ab263322-0eca-43c3-8a68-5938d9fca284",
+    "name": "Get History",
+    "url": "/history/11",
+    "method": "GET",
+    "sortNum": 10000,
+    "created": "2022-12-02T03:04:19.630Z",
+    "modified": "2022-12-02T03:07:41.790Z",
+    "headers": [],
+    "params": [],
+    "auth": {
+      "type": "bearer",
+      "bearer": "{{token}}"
+    },
+    "tests": []
+  },
+  {
+    "_id": "59875fb9-b081-4a95-b63b-478481b83433",
+    "colId": "aaa1009a-063c-4edb-9c7f-12b0a77673d0",
+    "containerId": "ab263322-0eca-43c3-8a68-5938d9fca284",
+    "name": "Get All History",
+    "url": "/history",
+    "method": "GET",
+    "sortNum": 5000,
+    "created": "2022-12-02T03:04:19.631Z",
+    "modified": "2022-12-02T03:07:36.397Z",
+    "headers": [],
+    "params": [],
+    "auth": {
+      "type": "bearer",
+      "bearer": "{{token}}"
+    },
+    "tests": []
+  },
+  {
+    "_id": "9d0a2a7f-f132-45ad-a60b-77078ef4f29f",
+    "colId": "aaa1009a-063c-4edb-9c7f-12b0a77673d0",
+    "containerId": "ab263322-0eca-43c3-8a68-5938d9fca284",
+    "name": "Get History By User",
+    "url": "/history/user",
+    "method": "GET",
+    "sortNum": 30000,
+    "created": "2022-12-02T03:04:19.632Z",
+    "modified": "2022-12-02T03:07:47.461Z",
+    "headers": [],
+    "params": [],
+    "auth": {
+      "type": "bearer",
+      "bearer": "{{token}}"
+    },
+    "tests": []
+  },
+  {
+    "_id": "c7b5c63a-187d-42a0-b009-051ec1784155",
+    "colId": "aaa1009a-063c-4edb-9c7f-12b0a77673d0",
+    "containerId": "c732c4d7-1d87-4051-83f4-4075dc645468",
+    "name": "Push Notifications",
+    "url": "/push-notifications",
+    "method": "POST",
+    "sortNum": 10000,
+    "created": "2022-12-02T03:05:04.879Z",
+    "modified": "2022-12-02T03:07:56.733Z",
+    "headers": [
+      {
+        "name": "Authorization",
+        "value": "key=AAAAf8AeNhs:APA91bF78QLISXIfX1UbVQCYnW_poYg7pCGmFTRxjuBkGoE3R3jsNEVbGEGVHeH-QKTT-en2Wen6rjhWzppPlzxgtYZ4kBomgcBt9R0X322_8uvvzcrYXqtQKDum4X-THXdkoInwCyfc",
+        "isDisabled": true
+      }
+    ],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n    \"token\": \"d06RyhjQT8iVrtjEEOYYhB:APA91bEV4slwQVJvQInEEsZfeAJiEkAiQ03kvCisN9T-wkxnqVYKu-1-MGWUeaCmGzSNI8bUQ3XRNq0ZJtwKTOkBgdGSf42xuS00acap6xisOTo9mY5H_vqJNiSSkNnKUHKTNcK6DjYz\",\n    \"title\": \"judul\",\n    \"body\": \"123\"\n}",
+      "form": []
+    },
+    "tests": []
+  }
+]
