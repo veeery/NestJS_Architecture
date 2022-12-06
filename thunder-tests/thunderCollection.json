@@ -39,6 +39,13 @@
         "containerId": "",
         "created": "2022-12-02T03:05:18.052Z",
         "sortNum": 50000
+      },
+      {
+        "_id": "d153a76a-7394-4395-90c6-6ba393893841",
+        "name": "Dashboard",
+        "containerId": "",
+        "created": "2022-12-02T09:24:27.189Z",
+        "sortNum": 60000
       }
     ],
     "settings": {
