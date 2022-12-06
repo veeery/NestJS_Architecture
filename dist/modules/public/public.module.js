@@ -9,6 +9,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const common_1 = require("@nestjs/common");
 const image_module_1 = require("../services/images/image.module");
 const auth_module_1 = require("./auth/auth.module");
+const dashboard_module_1 = require("./dashboard/dashboard.module");
 const hello_world_module_1 = require("./hello-world/hello-world.module");
 const history_module_1 = require("./history/history.module");
 const product_module_1 = require("./product/product.module");
@@ -24,6 +25,7 @@ PublicModule = __decorate([
             history_module_1.HistoryModule,
             auth_module_1.AuthModule,
             image_module_1.default,
+            dashboard_module_1.DashboardModule
         ],
     })
 ], PublicModule);
