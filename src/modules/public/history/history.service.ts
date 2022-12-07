@@ -72,6 +72,16 @@ export class HistoryService {
     const query = this.historyRepository.createQueryBuilder('history');
 
     query.leftJoinAndSelect('history.historyDetail', 'historyDetail');
+    query
+      .leftJoin('history.user', 'user')
+      .addSelect([
+        'user.id',
+        'user.createdAt',
+        'user.updatedAt',
+        'user.name',
+        'user.username',
+      ]);
+    query.leftJoinAndSelect('historyDetail.product', 'product');
     query.orderBy(`history.createdAt`, 'DESC');
 
     const paginated = paginate<History>(query, { limit, page });
